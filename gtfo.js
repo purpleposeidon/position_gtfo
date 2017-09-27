@@ -22,12 +22,17 @@ function scan_css_for_trash() {
 }
 
 function scan_dom_for_trash() {
+    scan_element_for_trash(document.head);
     scan_element_for_trash(document.body);
 }
 
 function scan_element_for_trash(e) {
     if (!e) return;
     scan_for_trash(e.style);
+    if (e.sheet) {
+        var sheet = e.sheet.rules || e.sheet.cssRules;
+        scan_for_trash(sheet);
+    }
     if (!e.children) return;
     for (var i in e.children) {
         scan_element_for_trash(e.children[i]);
