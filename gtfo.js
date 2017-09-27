@@ -3,6 +3,7 @@ console.log("position:gtfo start");
 
 // HashSet of css rules & element styles that have had trash stylings.
 var effed_off_styles = new Set();
+// FIXME: Use our own stylesheet instead?
 
 function scan_css_for_trash() {
     //var css = window.styleSheets, rules;

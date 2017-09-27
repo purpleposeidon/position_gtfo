@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <!-- some CDN, hosting some CSS -->
+        <link rel="stylesheet" href="https://servo.org/css/style.css">
+        <script>
+// content_script.js gets a security error accessing that CSS:
+console.log(document.head.children[1].sheet.cssRules);
+        </script>
+    </head>
+</html>
