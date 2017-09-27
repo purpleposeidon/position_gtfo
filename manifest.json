@@ -1,0 +1,42 @@
+{
+    "manifest_version": 2,
+    "name": "positiongtfo",
+    "version": "0.1",
+
+    "description": "Hides position:fixed elements",
+    "icons": {
+        "48": "icons/gtfo-48.png"
+    },
+
+    "applications": {
+        "gecko": {
+            "id": "gtfo@position.gtfo",
+            "strict_min_version": "45.0"
+        }
+    },
+
+    "content_security_policy": "script-src 'self'; object-src 'self';",
+
+    "content_scripts": [
+        {
+            "matches": ["http://*/*", "https://*/*"],
+            "js": ["gtfo.js"],
+            "run_at": "document_start",
+            "all_frames": true
+        }
+    ],
+
+    "permissions": [
+        "<all_urls>",
+        "http://*/*",
+        "https://*/*",
+        "contextMenus",
+        "privacy",
+        "storage",
+        "tabs",
+        "unlimitedStorage",
+        "webNavigation",
+        "webRequest",
+        "webRequestBlocking"
+    ]
+}
