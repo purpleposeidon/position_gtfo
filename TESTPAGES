@@ -1,3 +1,4 @@
+python3 -m http.server; http://localhost:8000/simple.html
 https://mdn.mozillademos.org/en-US/docs/Web/CSS/position$samples/position?revision=1308991
 http://minecraft.wikia.com/wiki/Minecraft_Wiki
 https://www.youtube.com/feed/subscriptions

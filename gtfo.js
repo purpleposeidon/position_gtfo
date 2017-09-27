@@ -1,10 +1,10 @@
+// Please forgive my javascript, I am but a humble systems programmer unfamiliar with your j-ways.
+console.log("position:gtfo start");
 
-var gtfo = "relative"; // Unfortunately 'style.position = "gtfo"' does not work in all contexts, so we use this hack instead.
+// HashSet of css rules & element styles that have had trash stylings.
+var effed_off_styles = new Set();
 
-// HashSet of style objects that are/were position:fixed
-var known_sinners = new Set();
-
-function scan_css() {
+function scan_css_for_trash() {
     //var css = window.styleSheets, rules;
     var css = document.styleSheets;
     if (!css) return;
@@ -16,53 +16,57 @@ function scan_css() {
             } catch (e) {
                 continue;
             }
-            scan_for_sin(rules);
+            scan_for_trash(rules);
         }
     }
 }
 
-function scan_dom() {
-    scan_element(document.body);
+function scan_dom_for_trash() {
+    scan_element_for_trash(document.body);
 }
 
-function scan_element(e) {
+function scan_element_for_trash(e) {
     if (!e) return;
-    scan_for_sin(e.style);
+    scan_for_trash(e.style);
     if (!e.children) return;
     for (var i in e.children) {
-        scan_element(e.children[i]);
+        scan_element_for_trash(e.children[i]);
     }
 }
 
-function scan_for_sin(rules) {
+function needs_to_gtfo(style) {
+    if (!style) {
+        return false;
+    }
+    return style.position == "fixed" || style.position == "sticky";
+}
+
+function scan_for_trash(rules) {
     if (!rules) { return; }
     for (var i = 0; i < rules.length; i++) {
         var rule = rules[i];
-        if (!rule.style) continue;
-        if (rule.style.position == "fixed" || rule.style.position == "sticky") {
-            known_sinners.add(rule.style);
+        if (rule && needs_to_gtfo(rule.style)) {
+            effed_off_styles.add(rule.style);
         }
-    };
+    }
 }
 
 function update_sinners() {
-    console.log("known_sinners: ", known_sinners);
-    Object.keys(known_sinners).forEach(function(rule) {
-        if (!typeof rule === "object") {
-            return;
-        }
-        console.log("Checking sinner ", rule);
-        if (rule.style.position == "fixed" || rule.style.position == "sticky") {
-            update_style(rule.style);
+    console.log("effed_off_styles: ", effed_off_styles);
+    effed_off_styles.forEach(function(style) {
+        console.log("Checking sinner ", style);
+        if (needs_to_gtfo(style)) {
+            your_style_is_trash(style);
         }
     });
 }
 
 
 
-function update_style(style) {
-    style.position = gtfo;
-    style.border = "5px solid orange";
+function your_style_is_trash(style) {
+    // style.display = "none";
+    style.border = "5px solid cyan";
+    style.opacity = "0.5";
 }
 
 var body_observer_config = {
@@ -76,8 +80,8 @@ var body_observer = new MutationObserver(function(mutations, observer) {
     try {
         mutations.forEach(function(mutation) {
             if (mutation.target.style.position != "fixed") return;
-            known_sinners.add(mutation.target.style);
-            update_style(mutation.target.style);
+            effed_off_styles.add(mutation.target.style);
+            your_style_is_trash(mutation.target.style);
         });
     } catch (e) {
         console.log(e);
@@ -90,11 +94,13 @@ var stylesheet_observer_config = {
 };
 var stylesheet_observer = new MutationObserver(function(mutations, observer) {
     var any_change = false;
+    console.log("mutation", mutations);
     mutations.forEach(function(mutation) {
         for (var i = 0; i < mutation.addedNodes.length; i++) {
             var node = mutation.addedNodes[i];
             if ((node.nodeName == "LINK" && node.rel == "stylesheet") || (node.nodeName == "STYLE")) {
                 any_change = true;
+                // FIXME: Just do it now?
             }
         }
     });
@@ -109,22 +115,26 @@ function pause_observers() {
 }
 
 function resume_observers() {
-    body_observer.observe(document.body || document /* might not have document.body when very early */, body_observer_config);
-    stylesheet_observer.observe(document.head, stylesheet_observer_config);
+    var bod = document.body || document; // might not have document.body when very early
+    if (bod) {
+        body_observer.observe(bod, body_observer_config);
+    }
+    if (document.head) {
+        stylesheet_observer.observe(document.head, stylesheet_observer_config);
+    }
 }
 
 resume_observers();
 function check_all() {
     pause_observers();
-    scan_css();
-    scan_dom();
+    scan_css_for_trash();
+    scan_dom_for_trash();
     update_sinners();
     resume_observers();
 }
-// the script runs very early, so probably little happens here.
-check_all();
+window.onload = check_all;
 document.onload = check_all;
-document.body.onclick = check_all;
+document.onclick = check_all;
 
 // resource://gre/modules/ExtensionContent.jsm -> moz-extension://87324442-0a91-49b5-b84e-b1aecf07adc6/gtfo.js
 
@@ -141,4 +151,6 @@ document.body.onclick = check_all;
 // https://developer.mozilla.org/en-US/docs/Web/API/MutationRecord
 
 // If a user has manually navigated to a webpage using a bookmark or by typing in the URL, they are probably interested enough in the webpage to want to see the stuff.
-// Some pages might emulate position:fixed by using position:absolute & animating it downwards.
+// Some pages might emulate position:fixed by using position:absolute & animating it downwards. (position: absolutely not?)
+
+console.log("position:gtfo ran");
