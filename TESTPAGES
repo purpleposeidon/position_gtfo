@@ -1,6 +1,25 @@
-python3 -m http.server; http://localhost:8000/simple.html
-    https://mdn.mozillademos.org/en-US/docs/Web/CSS/position$samples/position?revision=1308991
-python3 -m http.server; http://localhost:8000/wikia.html
-    http://minecraft.wikia.com/wiki/Minecraft_Wiki
-https://www.youtube.com/feed/subscriptions
+Running:
+    about:addons -> Gear -> Debug Addons -> manifest.json
+    cd tests/; python3 -m http.server
 
+https://mdn.mozillademos.org/en-US/docs/Web/CSS/position$samples/position?revision=1308991
+    The enemy
+
+http://minecraft.wikia.com/wiki/Minecraft_Wiki
+    wikia.html
+
+https://www.youtube.com/feed/subscriptions
+    Perhaps it's using this???
+    https://github.com/PolymerElements/app-layout/tree/master/app-header
+
+
+https://www.amnh.org/about-the-museum/press-center/amnh-to-design-all-new-halls-of-gems-and-minerals
+    (Must clear cookies tho!)
+    This website sets 'overflow: hidden' on <body>.
+
+
+
+
+
+
+Emoji from https://github.com/twitter/twemoji/
