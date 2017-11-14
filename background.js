@@ -23,7 +23,7 @@ function updateBadge(message, sender, reply) {
     var icon;
     var show_count = false;
     if (count == 0) {
-        icon = "icons/trash-clean.svg";
+        icon = "icons/clean.svg";
     } else if (message.trash_visible) {
         icon = "icons/trash-shown.svg";
     } else {
