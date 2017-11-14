@@ -5,8 +5,11 @@ along with other things.
 Usage
 =====
 There's just a single emoji-button for controlling it. 
+
 👌 (`OK HAND SIGN`): Nothing blockable.
+
 💩 (`PILE OF POO`): Blockable things are hidden. Press to view them.
+
 🤔 (`THINKING FACE`): Blockable things are shown. Press to hide them.
 
 Debugging
